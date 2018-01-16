@@ -1,6 +1,6 @@
 {
   "name": "open-path",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Url path parser for OpenAPI.",
   "main": "index.js",
   "repository": {

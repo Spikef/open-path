@@ -7,18 +7,28 @@ function Parse(path) {
     var regexp = '';
 
     path.split(/(?=\/)/).forEach(function(p) {
-        if (/^(?:(\/?)(?::([^?]+)|{(.+)})(\??))$/.test(p)) {
+        if (/^(?:(\/?)(?::([^*+?]+)|{(.+)})([*+?]?))$/.test(p)) {
             var p1 = RegExp.$1;
             var p2 = RegExp.$2 || RegExp.$3;
             var p3 = RegExp.$4;
+
+            // var repeat = p3 === '+' || p3 === '*';
+            // var optional = p3 === '?' || p3 === '*';
 
             params.push(p2);
             tokens.push({
                 name: p2,
                 prefix: p1,
-                required: !p3
+                suffix: p3,
+                required: !p3 || p3 === '+'
             });
-            regexp += '(?:' + p1 + '([^/]+))' + p3;
+
+            if (p3 === '+' || p3 === '*') {
+                regexp += '(?:' + p1 + '((?:[^/]+)' + p3 + '(?:/[^/]+)*))' + p3 + '?';
+                // regexp += '(?:/((?:[^/]+)*(?:/[^/]+)*))*';
+            } else {
+                regexp += '(?:' + p1 + '([^/]+))' + p3;
+            }
         } else {
             tokens.push(p);
             regexp += p;
@@ -28,7 +38,7 @@ function Parse(path) {
     this.path = path.replace(/:([^/]+)/g, '{$1}').replace(/\?/g, '');
     this.params = params;
     this.tokens = tokens;
-    this.regexp = new RegExp('^' + regexp + '$', 'i');
+    this.regexp = new RegExp('^' + regexp + '(?:/?)$', 'i');
 }
 
 Parse.prototype.match = function(path) {
