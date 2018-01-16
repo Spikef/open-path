@@ -1,0 +1,27 @@
+{
+  "name": "open-path",
+  "version": "1.0.0",
+  "description": "Url path parser for OpenAPI.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Spikef/open-path.git"
+  },
+  "keywords": [
+    "OpenAPI",
+    "path",
+    "parser"
+  ],
+  "scripts": {
+    "test": "mocha test --recursive"
+  },
+  "author": "Spikef",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Spikef/open-path/issues"
+  },
+  "homepage": "https://github.com/Spikef/open-path#readme",
+  "devDependencies": {
+    "mocha": "^4.1.0"
+  }
+}
