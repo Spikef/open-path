@@ -36,7 +36,12 @@ Parse.prototype.match = function(path) {
     if (matches = path.match(this.regexp)) {
         var params = {};
         this.params.forEach(function(key, i) {
-            params[key] = matches[i + 1];
+            var value = matches[i + 1];
+            if (value !== undefined) {
+                params[key] = safeDecodeURIComponent(value);
+            } else {
+                params[key] = value;
+            }
         });
 
         return params;
@@ -58,5 +63,13 @@ Parse.prototype.build = function(params) {
         }
     }).join('');
 };
+
+function safeDecodeURIComponent(input) {
+    try {
+        return decodeURIComponent(input);
+    } catch (e) {
+        return input;
+    }
+}
 
 module.exports = Parse;
