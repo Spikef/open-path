@@ -5,6 +5,7 @@ var parse1 = new Parse('/user/:category/today/{tag}?/detail');
 var parse2 = new Parse('/page/:id?');
 var parse3 = new Parse('/html/:filename*');
 var parse4 = new Parse('/file/:filename+');
+var parse5 = new Parse(/^\/article\/(\d+)(?:\/?)$/i);
 
 describe('Path resolve', function () {
     it('path should be [/user/{category}/today/{tag}/detail]', function () {
@@ -133,5 +134,19 @@ describe('Path match with +', function () {
         assert.deepEqual({
             filename: 'images/avatar.png'
         }, parse4.match('/file/images/avatar.png'));
+    });
+});
+
+describe('Path regexp', function () {
+    it('[/article/1] should matched', function () {
+        assert.deepEqual([1], parse5.match('/article/1'));
+    });
+
+    it('[/article/1/] should matched', function () {
+        assert.deepEqual(null, parse5.match('/new/article/1/'));
+    });
+
+    it('[/new/article/1] should not matched', function () {
+        assert.deepEqual(null, parse5.match('/new/article/1'));
     });
 });
