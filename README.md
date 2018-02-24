@@ -38,6 +38,10 @@ The path argument is used to define parameters.
 
 Named parameters are defined by prefixing a colon to the parameter name (:foo) or surround with braces ({foo}). By default, the parameter will match until the following path segment.
 
+### Unnamed Parameters
+
+Unnamed parameters are defined by regexp and naming by index.
+
 ### Parameter Modifiers
 
 #### Optional

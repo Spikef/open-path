@@ -139,7 +139,7 @@ describe('Path match with +', function () {
 
 describe('Path regexp', function () {
     it('[/article/1] should matched', function () {
-        assert.deepEqual([1], parse5.match('/article/1'));
+        assert.deepEqual({0: '/article/1', 1: '1'}, parse5.match('/article/1'));
     });
 
     it('[/article/1/] should matched', function () {

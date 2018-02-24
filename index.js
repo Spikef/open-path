@@ -49,7 +49,7 @@ function Parse(path) {
             }
         });
 
-        this.path = path.replace(/:([^/]+)/g, '{$1}').replace(/\?/g, '');
+        this.path = path.replace(/:([^/]+)/g, '{$1}').replace(/[?*+]/g, '');
         this.regexp = new RegExp('^' + regexp + '(?:/?)$', 'i');
     } else {
         this.path = path;
@@ -75,7 +75,9 @@ Parse.prototype.match = function(path) {
                 }
             });
         } else if (this.type === TYPES.REGEXP) {
-            params = matches.slice(1);
+            matches.forEach(function(m, i) {
+                params[i] = matches[i]
+            });
         }
 
         return params;
