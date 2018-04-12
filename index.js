@@ -58,8 +58,6 @@ function Parse(path) {
 
         this.path = path.replace(/:([^/]+)/g, '{$1}').replace(/[?*+]/g, '');
         this.regexp = new RegExp('^' + regexp + end, 'i');
-        console.log(this.path);
-        console.log(this.regexp);
     } else {
         this.path = path;
         this.regexp = path;
