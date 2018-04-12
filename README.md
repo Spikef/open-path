@@ -67,3 +67,19 @@ Parameters can be suffixed with a plus sign (+) to denote a one or more paramete
 ```javascript
 var parse = new Parse('/:foo+');
 ```
+
+## Path
+
+Path can be suffixed with an asterisk (*) or plus sign (+) to allow more path matches.
+
+### Zero or more
+
+```javascript
+var parse = new Parse('/api*');
+```
+
+### One or more
+
+```javascript
+var parse = new Parse('/api+');
+```

@@ -6,6 +6,8 @@ var parse2 = new Parse('/page/:id?');
 var parse3 = new Parse('/html/:filename*');
 var parse4 = new Parse('/file/:filename+');
 var parse5 = new Parse(/^\/article\/(\d+)(?:\/?)$/i);
+var parse6 = new Parse('/api*');
+var parse7 = new Parse('/api+');
 
 describe('Path resolve', function () {
     it('path should be [/user/{category}/today/{tag}/detail]', function () {
@@ -148,5 +150,33 @@ describe('Path regexp', function () {
 
     it('[/new/article/1] should not matched', function () {
         assert.deepEqual(null, parse5.match('/new/article/1'));
+    });
+});
+
+describe('Path match ends with *', function () {
+    it('[/api] should matched', function () {
+        assert.deepEqual({}, parse6.match('/api'));
+    });
+
+    it('[/api/post] should matched', function () {
+        assert.deepEqual({}, parse6.match('/api/post'));
+    });
+
+    it('[/api-post] should not matched', function () {
+        assert.deepEqual(null, parse6.match('/api-post'));
+    });
+});
+
+describe('Path match ends with +', function () {
+    it('[/api] should not matched', function () {
+        assert.deepEqual(null, parse7.match('/api'));
+    });
+
+    it('[/api/post] should matched', function () {
+        assert.deepEqual({}, parse7.match('/api/post'));
+    });
+
+    it('[/api-post] should not matched', function () {
+        assert.deepEqual(null, parse7.match('/api-post'));
     });
 });

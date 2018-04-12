@@ -24,6 +24,7 @@ function Parse(path) {
     var regexp = '';
 
     if (this.type === TYPES.STRING) {
+        var end = '(?:/?)$';
         path.split(/(?=\/)/).forEach(function(p) {
             if (/^(?:(\/?)(?::([^*+?]+)|{(.+)})([*+?]?))$/.test(p)) {
                 var p1 = RegExp.$1;
@@ -43,6 +44,12 @@ function Parse(path) {
                 } else {
                     regexp += '(?:' + p1 + '([^/]+))' + p3;
                 }
+            } else if (/[*+]$/.test(p)) {
+                var r = p.substr(0, p.length - 1);
+                var e = p.substr(p.length - 1);
+                tokens.push(r);
+                regexp += p;
+                end = '(?:/[^/]+)' + e +'$';
             } else {
                 tokens.push(p);
                 regexp += p;
@@ -50,7 +57,9 @@ function Parse(path) {
         });
 
         this.path = path.replace(/:([^/]+)/g, '{$1}').replace(/[?*+]/g, '');
-        this.regexp = new RegExp('^' + regexp + '(?:/?)$', 'i');
+        this.regexp = new RegExp('^' + regexp + end, 'i');
+        console.log(this.path);
+        console.log(this.regexp);
     } else {
         this.path = path;
         this.regexp = path;
